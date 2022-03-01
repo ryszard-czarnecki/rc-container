@@ -1,0 +1,120 @@
+{
+  "name": "DevOps",
+  "image": "bdaze1eelancr01.azurecr.io/dev_container:1.1.0-latest",
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+    "source=devops-home,target=/home/devops,type=volume"
+  ],
+  "overrideCommand": false,
+  "settings": {
+    // Allows recognizing custom-named Azure Pipelines
+    "files.associations": {
+      "azure-pipelines.yml": "azure-pipelines",
+      "**/*pipelines/**/*.yml": "azure-pipelines"
+    },
+
+    "vsicons.associations.folders": [
+      // These make it easier to visually navigate Ansible roles
+      {
+        "icon": "services",
+        "extensions": ["defaults"],
+        "format": "svg"
+      },
+      {
+        "icon": "tools",
+        "extensions": ["vars"],
+        "format": "svg"
+      }
+    ],
+    "editor.renderWhitespace": "all",
+
+    "python.languageServer": "Pylance",
+    "python.analysis.completeFunctionParens": true,
+    // Enables correct resolving of Ansible collection packages
+    "python.analysis.extraPaths": ["ansible/collections"],
+
+    // Consistent highlighting for comment tags
+    "better-comments.highlightPlainText": true,
+    "better-comments.tags": [
+      {
+        "tag": "fixme",
+        "color": "#FF2D00",
+        "strikethrough": false,
+        "underline": false,
+        "backgroundColor": "transparent",
+        "bold": false,
+        "italic": false
+      },
+      {
+        "tag": "note",
+        "color": "#3498DB",
+        "strikethrough": false,
+        "underline": false,
+        "backgroundColor": "transparent",
+        "bold": false,
+        "italic": false
+      },
+      {
+        "tag": "//",
+        "color": "#474747",
+        "strikethrough": true,
+        "underline": false,
+        "backgroundColor": "transparent",
+        "bold": false,
+        "italic": false
+      },
+      {
+        "tag": "warn",
+        "color": "#C44C00",
+        "strikethrough": false,
+        "underline": false,
+        "backgroundColor": "transparent",
+        "bold": false,
+        "italic": false
+      },
+      {
+        "tag": "todo",
+        "color": "#FF8C00",
+        "strikethrough": false,
+        "underline": false,
+        "backgroundColor": "transparent",
+        "bold": false,
+        "italic": false
+      },
+      {
+        "tag": "hack",
+        "color": "#98C379",
+        "strikethrough": false,
+        "underline": false,
+        "backgroundColor": "transparent",
+        "bold": false,
+        "italic": false
+      }
+    ],
+
+    // Spell checking
+    "cSpell.enabled": true,
+
+    // Ansible extension configuration customized to the devcontainer environment
+    "ansible.python.activationScript": "/var/lib/awx/venv/ansible/bin/activate",
+    "ansible.ansibleLint.arguments": "--project-dir ./ansible"
+  },
+  "extensions": [
+    "aaron-bond.better-comments",
+    "tomaciazek.ansible",
+    "ms-azure-devops.azure-pipelines",
+    "streetsidesoftware.code-spell-checker",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "hashicorp.terraform",
+    "esbenp.prettier-vscode",
+    "ms-python.vscode-pylance",
+    "ms-python.python",
+    "kevinrose.vsc-python-indent",
+    "dotjoshjohnson.xml",
+    "yzhang.markdown-all-in-one",
+    "ms-azuretools.vscode-docker"
+  ]
+}
