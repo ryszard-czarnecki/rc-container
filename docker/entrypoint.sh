@@ -1,6 +1,4 @@
 #!/usr/bin/bash
-# Always start supervisor
-sudo /usr/local/bin/supervisord -c /etc/supervisord.conf
 
 if [ ! -f ~/.zshrc ] && [ ! -f ~/.p10k.zsh ]; then
   cp -R /bootstrap/.oh-my-zsh ~/

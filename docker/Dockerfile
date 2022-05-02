@@ -2,17 +2,13 @@ FROM ubuntu:20.04
 
 USER root
 
-# Reset the environment variable baked into the awx image
 ENV HOME=
 
-##
-# Configure system
-##
 # Install tools
 RUN apt-get update && \
   apt install -y apt-transport-https && \
   apt install -y python3-pip && \
-  apt install -y zsh ca-certificates curl apt-transport-https lsb-release gnupg wget git
+  apt install -y zsh ca-certificates curl apt-transport-https lsb-release gnupg wget git sudo tini
 
 # Install az cli
 RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | \ 
@@ -39,10 +35,6 @@ COPY bootstrap/.zshrc /root/
 # Configure /etc/profile.d
 COPY profile.d/* /etc/profile.d/
 
-# Configure supervisor
-COPY supervisord.conf /etc/
-COPY supervisor.d/* /etc/supervisor.d/
-
 RUN echo 'Defaults secure_path = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin"' >> /etc/sudoers
 
 # Copy bootstrap configuration & scripts for devops user
@@ -50,21 +42,13 @@ RUN mkdir /bootstrap
 COPY bootstrap/* /bootstrap/
 RUN cp -R /root/.oh-my-zsh /bootstrap/
 
-##
-# Configure ENTRYPOINT and CMD
-##
-
 COPY entrypoint.sh /usr/local/share/
 RUN chmod +x /usr/local/share/entrypoint.sh
 
 # Using `tini` for zombie-process reaping
-#ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/share/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/share/entrypoint.sh"]
 
 CMD ["sleep", "infinity"]
-
-##
-# Prepare user environment
-##
 
 ARG USER=devops
 
